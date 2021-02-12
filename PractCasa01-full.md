@@ -8,11 +8,10 @@ output:
     keep_md: yes
     df_print: default
     highlight: pygments
-    toc: true
-    toc_float: true
-    collapsed: false
-    number_sections: false
-    toc_depth: 3
+    toc: yes
+    toc_float: yes
+    collapsed: no
+    toc_depth: 4
   pdf_document: 
     number_sections: yes
     toc: yes
