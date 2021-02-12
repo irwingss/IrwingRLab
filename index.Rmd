@@ -18,23 +18,23 @@ output: html_document
 <div class="row" style="padding-top: 30px;">
 
 ::: {.col-sm-6}
-# **My Lab Journal**
+# **Irwing's RLab**
 
-This is a template example for lab journaling. Students in Matt Crump's Human Cognition and Performance Lab will use this template to learn R, and other things. Students can replace this text with more fun things. People not in my lab can use this too.
+En esta página encontrarás los ejercicios desarrollados del programa de certificación especializado Data Science: Estadística y Análisis de Datos en R, Cohorte 2021-I.
 
-## How to use
+## Recomendaciones de uso
 
-1.  fork the repo for this website and follow instructions on read me to get set up. <https://github.com/CrumpLab/LabJournalWebsite>
+1.  Usa los repositorios para visualizar las respuestas de las Prácticas de Casa que se realizarán a lo largo del programa.
 
-2.  Blog/journal what you are doing in R, by editing the Journal.Rmd. See the [Journal page](https://crumplab.github.io/LabJournalWebsite/Journal.html) for an example of what to do to get started learning R.
+2.  Practica todo lo que puedas antes de revisar la respuesta. La práctica hace al maestro.
 
-3.  See the [links page](https://crumplab.github.io/LabJournalWebsite/Links.html) for lots of helpful links on learning R.
-
-4.  Change everything to make it your own.
+3.  Si no eres alumno del programa, estás invitado a revisar y practicar con esta información. No obstante está `totalmente prohibido` utilizar la información de este sitio web para fines que no tengan que ver con cursos o programas que no sean ofrecidos por el **Instituto de Ciencias Antonio Brack**.
 :::
 
 ::: {.col-sm-6}
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
+### [**Departamento de Ecoinformática y Biogeografía**](https://www.brackinstitute.com/ecoinformatica) {.col-sm-6}
 
-<a href = "https://crumplab.github.io"> ![](images/logo.png) </a>
+#### [Instituto de Ciencias Antonio Brack](https://www.brackinstitute.com/ecoinformatica) {.col-sm-6}
+
+<a href = "https://www.brackinstitute.com/ecoinformatica"> [![](images/Cuadradito.jpg){width="31.7cm"}](https://www.brackinstitute.com/ecoinformatica) </a>
 :::
