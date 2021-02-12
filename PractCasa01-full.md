@@ -10,7 +10,7 @@ output:
     highlight: pygments
     toc: yes
     toc_float: yes
-    collapsed: no
+    collapsed: yes
     toc_depth: 4
   pdf_document: 
     number_sections: yes
@@ -34,7 +34,7 @@ Recuerda realizar esta práctica luego de haber aprendido la información de la 
 
 > **Nota:** Si necesitas crear un code chunk los atajos en el teclado son en WINDOWS: `Crtl+Alt+i`, y en MAC: `Command+Alt+i`.
 
-## **Ejercicio 1:**
+## **Ejercicio 1**
 
 Crea una variables llamada `tlf` que contengan la suma de los dígitos de tu número de celular, dividido entre el total de números que tiene. Visualiza el resultado ejecutando el nombre de la variable. Redondea esta cifra a dos decimales usando una de las funciones que aprendiste en el script "Funciones útiles".
 
@@ -56,7 +56,7 @@ round(tlf)
 ## [1] 5
 ```
 
-## **Ejercicio 2:**
+## **Ejercicio 2**
 
 Crea los vectores siguientes:
 
@@ -189,7 +189,7 @@ paste("Hospital", LETTERS[1:4], sep="-")
 ## [1] "Hospital-A" "Hospital-B" "Hospital-C" "Hospital-D"
 ```
 
-## **Ejercicio 3:**
+## **Ejercicio 3**
 
 Practica la indexación de vectores, factores y data.frames (lo mismo aplica para matrices y tibbles):
 
@@ -542,7 +542,7 @@ airquality$Month
 
 ------------------------------------------------------------------------
 
-## **Ejercicio 4:**
+## **Ejercicio 4**
 
 Crea un **code chunk**. Luego, carga la base de datos `trees` y responde:
 
@@ -667,7 +667,7 @@ head(trees)
 
 ------------------------------------------------------------------------
 
-## **Ejercicio 5:**
+## **Ejercicio 5**
 
 Por último, trabaja identificando valores perdidos para lidiar con ellos más adelante.
 
