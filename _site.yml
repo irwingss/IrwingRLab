@@ -2,8 +2,8 @@ name: "IrwingRLab"
 navbar:
   title: "IrwingRLab"
   left:
-    - text: "Home"
+    - text: "Inicio"
       href: index.html
-    - text: "Practica de Casa 01"
+    - text: "Practica de Casa 1"
       href: PractCasa01-full.html
 output_dir: "docs"
