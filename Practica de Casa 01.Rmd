@@ -1,0 +1,355 @@
+---
+title: "Introducción a R para Ciencias C1-S2-clase3"
+Subtitle: "Programa de Certificación Especializado Data Science: Estadística y Análisis de Datos en R"
+Author: "Instructor: Irwing S. Saldaña"
+output: 
+  html_document: 
+    theme: cosmo
+    keep_md: yes
+    df_print: default
+    highlight: pygments
+  pdf_document: 
+    number_sections: yes
+    toc: yes
+    highlight: pygments
+editor_options: 
+  chunk_output_type: console
+---
+
+# **Práctica de Casa 01 - Programación Básica con R**
+
+Realiza los siguientes ejercicios durante tu tiempo libre para mejorar tus habilidades de manejo del lenguaje de programación R.
+
+Recuerda realizar esta práctica luego de haber aprendido la información de la clase 1 y 2 de la semana 1, y la clase 1 de la semana 2, es decir, luego de haber desarrollado:
+
+-   R-Notebook-C1-S1-clase1.Rmd
+
+-   R-Notebook-C1-S1-clase2.Rmd
+
+-   Funciones útiles.R (Script)
+
+> **Nota:** Si necesitas crear un code chunk los atajos en el teclado son en WINDOWS: `Crtl+Alt+i`, y en MAC: `Command+Alt+i`.
+
+## **Ejercicio 1:**
+
+Crea una variables llamada `tlf` que contengan la suma de los dígitos de tu número de celular, dividido entre el total de números que tiene. Visualiza el resultado ejecutando el nombre de la variable. Redondea esta cifra a dos decimales usando una de las funciones que aprendiste en el script "Funciones útiles".
+
+```{r}
+tlf <- sum(9+3+2+0+9+3+2+8+5)/9
+tlf
+round(tlf)
+```
+
+## **Ejercicio 2:**
+
+Crea los vectores siguientes:
+
+```{r}
+# 2.1.
+# Números del (1,2,3,4,...,20,21) en ese orden
+1:21
+
+# 2.2.
+# Números del (21,20,19,18,...,2,1) en ese orden
+# Tip: usa el operador para rangos
+21:1
+
+# 2.3.
+# Prueba creando un vector con vectores dentro
+# Crea un vector que contenga lo números
+# (1,2,3,4,...,20,21,21,20,19,18,...,2,1)
+c(1:21,21:1)
+
+# 2.4.
+# Asigna a temperatura el valor 24.3
+temperatura <- 24.3
+
+# 2.5.
+# Asigna a precipitacion los valores 202.7, 10.5, 209.2
+precipitacion <- c(202.7, 10.5, 209.2)
+
+# 2.6.
+# Además de bases de datos precargadas por defecto, en R exiten
+# algunos vectores creados por defecto en la memoria del programa.
+# El vector letters y el vector LETTERS contienen las letras
+# del alfabeto. Podemos acceder a ellas simplemente ejecutando
+# su nombre
+letters
+LETTERS
+
+# Ahora, indexa las letras del 10 al 20 en mayúsculas,
+# y las letras a,b,c,d en las letras minúsculas
+# Recuerda que estos objetos son vectores.
+LETTERS[10:20]
+letters[1:4]
+
+# 2.7.
+# Usa la función paste() para crear un vector que contenga
+# los valores ("Parcela 1", "Parcela 2", ....., "Parcela 30").
+# otro con los valores ("Especie1", "Especie2", ....., "Especie10")
+# y otro con los valores ("Hospital-A", "Hospital-B", "Hospital-C", "Hospital-D")
+paste("Parcela", 1:30)
+paste0("Especie",1:10)
+paste("Hospital", c("A","B","C"), sep="-")
+paste("Hospital", LETTERS[1:4], sep="-")
+
+```
+
+## **Ejercicio 3:**
+
+Practica la indexación de vectores, factores y data.frames (lo mismo aplica para matrices y tibbles):
+
+```{r}
+# Carga la base de datos airquality
+data("airquality")
+
+# 3.1.
+# Indexa la posición columna 4, fila 100
+airquality[100,4]
+
+# 3.2.
+# Indexa la columna Ozone y las filas del 100 al 120
+airquality[100:120,"Ozone"]
+
+# 3.3.
+# Indexa las columnas Ozone y Temp en el mismo
+# rango de filas que el ejercicio 3.2.
+# Asigna el resultado al nombre aire 
+aire <- airquality[100:120,c("Ozone","Temp")]
+
+# 3.4.
+# Halla la suma de los valores de la columna Temp
+# de la variable aire que creaste en 3.3.
+sum(aire$Temp)
+
+# 3.5.
+# Ahora trata de hacer lo mismo para ambas columnas 
+# de la variable aire, pero usando la función colSums()
+# aprendida en el script "Funciones Útiles.R"
+colSums(aire)
+
+```
+
+Si observas la suma de valores de `Ozone`, que debería de ser un número, aparece como `NA` (valor perdido). Cuando una columna tiene valores perdidos cualquier operación matemática o estadística se convierte en `NA`. Para evitarlo, usa dentro de `colSums()` el argumento `na.rm = TRUE`. Este argumento cuando es `TRUE` remueve los `NA` (de ello derivan las siglas `na.rm`).
+
+```{r}
+# 3.6.
+# Usa na.rm = TRUE dentro de colSums() y obtén 
+#la suma de ambas columnas  en la variable aire.
+colSums(aire, na.rm = T)
+
+# Calcula el promedio de ambas columnas en aire,
+# usando la función apply() aprendida en el script "Funciones Útiles.R"
+# usa na.rm=TRUE como cuarto argumento de la función apply.
+apply(aire, 2, mean, na.rm=TRUE)
+
+```
+
+```{r}
+# 3.7.
+# Extrae la columna Species de la base de datos y guárdala
+# con el nombre "esp".
+data(iris)
+esp <- iris$Species
+
+# Visualiza esp
+esp
+
+# De esp, indexa la posicion 78 ¿A qué especie corresponde?
+esp[78]
+
+# Dado que en la parte inferior del resulta en la consola aparece
+# Levels: setosa versicolor virginica
+# Debo pensar que este vector de datos en realidad es un factor.
+# Compruébalo usando la función is()
+is(esp)
+
+# Ahora coerciona esp de factor a vector tipo caracter
+# Y guárdalo asignándole el nombre char.
+char <- as.character(esp)
+
+# Indexa la misma posición, 78, en char y verifica
+# si el resultado te muestra niveles. 
+# Si la respuestas es no, es porque ya no es factor,
+# ahora es un vector tipo carácter.
+char[78]
+
+```
+
+------------------------------------------------------------------------
+
+### **"Coder Tip" para trabajar con factores dentro de tablas**
+
+Es muy importante saber reemplazar el nombre de los niveles de un factor con otros valores, ya sea como variables independientes o como una columna dentro de una tabla. Para este ejercicio necesitaremos cargar la base de datos `airquality`. Trabajaremos con la columna `Month`, meses en español. Veamos la tabla:
+
+```{r}
+data("airquality")
+head(airquality)
+```
+
+Veamos los valores únicos de la columna `Month` con la función `unique()`:
+
+```{r}
+unique(airquality$Month)
+```
+
+La columna `Month` se puede considerar un vector numérico, con valores del 5 al 9 repetidos varias veces. Cada cifra representa los meses (según su número de orden en el año) Mayo, Junio, Julio, Agosto, Septiembre. Podemos usar la función `factor()` para convertir la columna en factor y, a la vez, aprovechar reemplazar los números por sus respectivos nombres de mes, utilizando el argumento `labels`. Cada nivel debe ser reemplazado con un valor como lo menciona el código a continuación:
+
+```{r}
+factor(airquality$Month, labels = c("5"="Mayo", "6"="Junio", "7"="Julio",
+                                    "8"="Agosto","9"="Septiembre"))
+```
+
+Como viste, a pesar de que los niveles fueron números, estos deben ser colocados con comillas `""`, y con símbolo de igual `=` designar con qué valor va a ser reemplazado. Sin embargo, cuando revisamos cual es la clase de la columna `Month` en `airquality` vemos que sigue siendo numérica.
+
+```{r}
+airquality$Month
+```
+
+Lo que sucede es que con el código de la función `factor()` solo creaste un factor, pero no lo usaste para reemplazar a la columna `Month`. Para ello debes asignarle el factor que crees a la columna que deseas reemplazar.
+
+```{r}
+airquality$Month <- factor(airquality$Month, 
+                           labels = c("5"="Mayo", "6"="Junio", "7"="Julio",
+                                    "8"="Agosto","9"="Septiembre"))
+```
+
+Ahora revisemos el contenido de dicha columna
+
+```{r}
+airquality$Month
+```
+
+O veamos la tabla
+
+```{r}
+View(airquality)
+```
+
+Algo que también es importante es reordenar los niveles de un factor. Cambia el orden del factor `Month`en la base de datos `airquality` para que comience por Septiembre y termine en Mayo, usando el argumento `levels`. Este orden, a pesar de que parece no afectar en nada a la tabla, tiene un gran impacto en cómo se verán gráficas o análisis basados en esta columna.
+
+```{r}
+airquality$Month <- factor(airquality$Month,
+                           levels = c("Septiembre","Agosto","Julio","Junio","Mayo"))
+```
+
+Revisemos nuevamente el contenido de `Month`
+
+```{r}
+airquality$Month
+```
+
+------------------------------------------------------------------------
+
+## **Ejercicio 4:**
+
+Crea un **code chunk**. Luego, carga la base de datos `trees` y responde:
+
+-   ¿Cuál es el número de columnas de la data frame `trees`?
+
+-   ¿Cuál es el número de filas de la data frame `trees`?
+
+-   Crea un subconjunto la tabla `trees` usando las filas de 10 a las 20 y las columnas 1 y 3. Guarda la tabla resultante con el nombre `trees.sub`. Visualiza la data frame `tree.sub`.
+
+[[*Crea el code chunk aquí*]{.ul}]
+
+```{r}
+# 4.1.
+# Data trees
+data(trees)
+
+# 4.2.
+# N columnas
+ncol(trees)
+
+# 4.3.
+# N filas
+nrow(trees)
+
+# 4.4.
+# Subconjunto
+trees[1:10,c(1,3)]
+```
+
+------------------------------------------------------------------------
+
+### **"Coder Tip" para eliminar columnas**
+
+Puedes eliminar una columna de una tabla si le asignas a esa columna el valor `NULL` usando el operador de asignación: `<- NULL`. Por ejemplo, al cargar la base de datos iris con `data(iris),` podemos eliminar la columna `Species` de la siguiente manera:
+
+```{r}
+# Carga la base de datos
+data("iris")
+
+# Visualicemos la tabla con head()
+head(iris)
+
+# Utiliza $ para seleccionar la columna Species
+# y eliminala
+iris$Species <- NULL
+
+# Visualicemos nuevamente para verificar que
+# Species fue eliminada
+head(iris)
+```
+
+Ahora tú, elimina la columna `Height` de la base de datos `trees`.
+
+```{r}
+# Escribe aquí tu código
+trees$Height <- NULL
+
+# Visualiza la tabla
+head(trees)
+
+```
+
+------------------------------------------------------------------------
+
+## **Ejercicio 5:**
+
+Por último, trabaja identificando valores perdidos para lidiar con ellos más adelante.
+
+```{r}
+# Ejecuta este código para crear una data frame
+# conteniendo valores perdidos (NAs)
+df <- data.frame(Col1 = c(1,2,3,NA,5,6,NA,8,9,10),
+           Col2 = 20:29,
+           Col3 = c(LETTERS[1:5],NA,"J","K","I","NA"))
+
+# Visualiza df
+View(df)
+
+```
+
+Los valores `NA` emulan una celda en blanco en una tabla de excel. Cuando uno coloca manualmente `NA` como texto en las celdas en blanco de un Excel, R las reconocerá como texto `"NA"`, tal cual se puso intencionalmente en la columna `Col3`, un `NA` y un `"NA"`. Al ubicar los valores perdidos, las siguientes fórmulas obviarán los textos `"NA"` que hayas escrito en tu Excel. Es recomendable NO colocar `"NA"` y simplemente dejar las celdas vacías si vamos a cargar nuestra tabla a RStudio.
+
+Obviando que dicho `NA` no es un valor perdido real, realiza las siguientes indicaciones:
+
+```{r}
+# Cuántos NA hay en toda la tabla
+sum(is.na(df))
+
+# Identifica dónde (filas y columnas) aparecen las NA
+which(is.na(df), arr.ind = TRUE)
+
+# Identifica cuántos NA tiene cada columna
+colSums(is.na(df))
+
+# Ver cuál filas son casos completos (sin NA)
+which(complete.cases(df))
+
+# Ver cuál filas NO son casos completos (tienen al menos un NA)
+which(!complete.cases((df)))
+
+# Elimina todas las filas con al menos un NA
+# y asigna la nueva tabla a df2
+df2 <- na.omit(df)
+
+# Visualiza df2
+View(df2)
+```
+
+##  {style="color: rgb(77, 77, 77); font-family: \"Segoe UI\", serif; font-style: normal; font-variant-ligatures: none; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre-wrap; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; caret-color: rgb(53, 17, 143); background-color: rgb(235, 235, 235); text-decoration-style: initial; text-decoration-color: initial;"}
+
+\
