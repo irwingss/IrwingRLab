@@ -10,7 +10,7 @@ output:
     highlight: pygments
     toc: yes
     toc_float: yes
-    collapsed: yes
+    collapsed: no
     toc_depth: 4
   pdf_document: 
     number_sections: yes
