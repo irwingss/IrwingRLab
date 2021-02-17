@@ -8,14 +8,8 @@ output:
     keep_md: yes
     df_print: default
     highlight: pygments
-    toc: yes
-    toc_float: yes
-    collapsed: no
-    toc_depth: 4
-  pdf_document: 
-    number_sections: yes
-    toc: yes
-    highlight: pygments
+     toc: true
+    toc_depth: 2
 editor_options: 
   chunk_output_type: console
 ---
