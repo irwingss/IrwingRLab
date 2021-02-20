@@ -6,4 +6,6 @@ navbar:
       href: index.html
     - text: "Practica de Casa 1"
       href: PractCasa01-full.html
+    - text: "Practica de Casa 2"
+      href: PractCasa02-full.html
 output_dir: "docs"

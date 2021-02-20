@@ -1,0 +1,206 @@
+---
+title: "Introducción a R para Ciencias C1-S3-clase2"
+Subtitle: "Programa de Certificación Especializado Data Science: Estadística y Análisis de Datos en R"
+Author: "Instructor: Irwing S. Saldaña"
+output:
+  html_document: 
+    theme: cosmo
+    highlight: pygments
+    toc: yes
+    toc_float: 
+      collapsed: yes
+  pdf_document: 
+    number_sections: yes
+    toc: yes
+    highlight: pygments
+editor_options: 
+  chunk_output_type: console
+---
+
+# **Práctica de Casa 02 - Programación con R y dplyr**
+
+Last compiled: `r Sys.Date()`
+
+Link de la práctica desarrollada: [Introducción a R para Ciencias C1-S3-clase2 (irwingss.github.io)](https://irwingss.github.io/IrwingRLab/PractCasa02-full.html)
+
+Realiza los siguientes ejercicios durante tu tiempo libre para mejorar tus habilidades de manejo del lenguaje de programación R.
+
+Recuerda realizar esta práctica luego de haber aprendido la información de la clase 1 y 2 de la semana 3:
+
+-   R-Notebook-C1-S3-clase1y2.Rmd
+
+> **Nota:** Si necesitas crear un code chunk los atajos en el teclado son en WINDOWS: `Crtl+Alt+i`, y en MAC: `Command+Alt+i`.
+
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(gapminder)
+```
+
+## **Ejercicio 1:**
+
+Calcula el promedio del GDP Percápita (columna `gdpPercap`) para cada continente de la base de datos `gapminder`. Crea un resumen estadístico que contenga estos nuevos datos en la columna llamada `pib_percapita_prom`. Asegúrate de reordenar la tabla final para que muestre el valor más alto en la primera fila. Asigna el resultado final a `gdp_continentes`.
+
+```{r}
+data(gapminder)
+
+gdp_continentes <- gapminder %>% 
+  group_by(continent) %>% 
+  summarise(pib_percapita_prom = mean(gdpPercap)) %>% 
+  arrange(desc(pib_percapita_prom))
+
+gdp_continentes
+```
+
+**¿Qué continente tiene el mayor Producto Interno Bruto per cápita promedio?**
+
+Rpta/. Oceanía.
+
+\pagebreak
+
+## **Ejercicio 2:** 
+
+### match operator `%in%`
+
+El realizar filtrados es muy útil. Cuando deseamos filtrar un valor dentro de una columna usamos una estructura lógica similar a `COL == "Valor"`. Sin embargo, algunas veces es necesario buscar más de un valor en la columna. En esos casos uno imaginaría que es útil hacer algo como `COL == c("Valor1", "Valor2", "Valor3")`. Veamos si es correcto.
+
+```{r}
+# Verifica la cantidad de filas que existe 
+# para Perú y Ecuador en la base de datos gapminder
+# Usa el operador lógico "o" | para definir dos condiciones
+# que deben de cumplirse, una o la otra, para filtrar las filas
+gapminder %>% filter(country == "Peru" | country == "Ecuador") %>% 
+  group_by(country) %>%  count(country)
+
+# Utilicemos la estructura COL == c("Valor1", "Valor2")
+gapminder %>% filter(country == c("Peru","Ecuador")) %>% 
+  group_by(country) %>%  count(country)
+```
+
+Claramente, esta estructura no funciona. Nos indica 6 filas para cada país, en lugar de 12 que son las que tiene cada uno. Siempre que quieras buscar más de un valor en una condición lógica, evita el uso de `==` y usa en su lugar `%in%`. El operador `%in%` busca cada elemento del vector que le proporcionemos a la derecha, en el conjunto de datos que le brindemos a la izquierda. Por ejemplo, `COL %in% c("A", "B")` busca `A` en `COL` y luego busca `B` en `COL`, filtrando todas las filas que cumplan con una u otra búsqueda. **Por tanto, `%in%` reemplaza una secuencia de condiciones lógicas "o" `|`.**
+
+```{r}
+# Utilicemos el operador %in%
+gapminder %>% filter(country %in% c("Peru","Ecuador")) %>% 
+  group_by(country) %>%  count(country)
+
+# Incluso podemos usar un index
+index <- c("Ecuador","Peru","Chile","Mexico","Colombia")
+
+gapminder %>% filter(country %in% index) %>% 
+  group_by(country) %>%  count(country)
+```
+
+Ahora aplica lo aprendido para calcular el promedio de vida (columna `lifeExp`) de cada uno de los paises (columna `country`) mencionados en el `index` para `gapminder`.
+
+```{r}
+gapminder %>% filter(country %in% index) %>%
+  group_by(country) %>% 
+  summarise(prom = mean(lifeExp)) %>% 
+  arrange(desc(prom))
+```
+
+**¿Qué país, de los seleccionados, tiene el mayor Producto Interno Bruto per cápita promedio?**
+
+Rpta/. Chile.
+
+Filtrado de valores que "Comienzan con la letra ..."\
+Esto a veces es una gran necesidad. Aprenderemos a filtrar valores que comienzan con una letra usando la función `substr()` para crear una condición lógica dentro de `filter()`. Primero conoce como usar `substr()`.
+
+```{r}
+# Crea un vector con tres países
+paises <- c("República dominicana", "Costa Rica", "Colombia")
+
+# Ejecuta substr para que veas qué hacen los argumentos
+# start y stop de substr(). Cambia los números si gustas
+substr(paises, start = 1, stop = 1)
+substr(paises, start = 1, stop = 3)
+substr(paises, start = 3, stop = 5)
+```
+
+La función `substr()` le aplica lo mismo a todos los elementos de un vector de tipo carácter (o una columna de tipo carácter dentro de una tabla), indicando en qué posición dentro de cada elemento iniciar a mostrar los caracteres (`start`) y dónde detenerse (`stop`). `start =1, stop = 2` significaría: muéstrame desde la primera hasta la segunda letra de cada elemento del conjunto de datos.
+
+Podemos usar esta función como *el lado izquierdo* de una condición lógica con `%in%`. Indica que busque, por ejemplo, la letra `"A"` en el conjunto de datos "recortado" con `substr()` que muestre sólo la primera letra del texto en cada fila en la columna `continent`.
+
+```{r}
+gapminder %>% 
+  filter(substr(continent, start = 1, stop = 1) %in% "A") %>% 
+  distinct(continent)
+```
+
+Ahora aplica lo aprendido, filtra la base de datos para que solo aparezcan los países que comienzan con "Co".
+
+```{r}
+gapminder %>% 
+  filter(substr(country, start = 1, stop = 2) %in% "Co") %>% 
+  distinct(country)
+```
+
+**¿Cuántos nombres de países inician con la sílaba "Co"?**
+
+Rpta/. Son seis países.
+
+\pagebreak
+
+## **Ejercicio 3:** 
+
+Llama a la base de datos `airquality` y calcula el promedio y la desviación estándar de las primeras 4 columnas de la base de datos, agrupando los datos por mes (columna `Month`). Redondea el resultado a dos decimales con la función `round()`. Asigna el resultado con el nombre `prom.meses`.
+
+```{r}
+# Escribe tu código aquí
+prom.meses <- airquality %>% 
+  group_by(Month) %>%
+  select(1:4) %>% 
+  summarise_all(funs(mean), na.rm=TRUE) %>% round()
+
+# Visualiza prom.meses
+prom.meses
+```
+
+Modifica el tibble `prom.meses` convirtiendo la columna `Month` a factor y cambiando los valores numéricos por el nombre de cada mes según corresponda.
+
+```{r}
+# Escribe tu código aquí
+prom.meses$Month <- factor(prom.meses$Month, labels = c("5"="Mayo",
+                                                        "6"="Junio",
+                                                        "7"="Julio",
+                                                        "8"="Agosto",
+                                                        "9"="Setiembre"))
+# Visualiza prom.meses
+prom.meses
+```
+
+\pagebreak
+
+## **Ejercicio 4:** 
+
+Une los valores de la columna `Month` y `Day` de la base de datos `airquality` en una nueva columna llamada `Mes_Dia`, consignando el separador el guión bajo `"_"`. Usa alguna de las funciones de la parte de tablas anchas o largas de la clase, y usa pipe lo más que puedas en tu código. Filtra las filas que tengan valores de radiación solar (columna `Solar.R`) mayores a 250 y valores de ozono (columna `Ozone`) mayores a 40.
+
+```{r}
+# Escribe tu código aquí
+airquality %>% 
+  unite(Mes_Dia, Month, Day, sep="_") %>% 
+  filter(Solar.R > 250 & Ozone > 40)
+```
+
+**¿A qué mes pertenecen la mayor cantidad de observaciones con estas características de radiación solar y ozono?**
+
+Rpta/. Al mes 7
+
+\pagebreak
+
+## **Ejercicio 5:**
+
+Convierte la base de datos airquality a tabla larga, apilando todas las columnas numéricas y manteniendo las columnas `Month` y `Day`. Asignale el nombre `t_larga`. Una vez guardada la variable úsala para filtra la variable `Ozone` del mes `8` y calcula el promedio de dicho conjunto de datos.
+
+```{r}
+# Crea la variable t_larga
+t_larga <- gather(airquality, Variables, Valores, -Month, -Day)
+
+# Visualiza la variable t_larga
+View(t_larga)
+
+# Realiza el filtrado
+t_larga %>% 
+  filter(Month=="8" & Variables == "Ozone") %>% 
+  summarise(promedio = mean(Valores, na.rm=TRUE))
+```
