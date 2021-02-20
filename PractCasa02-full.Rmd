@@ -57,7 +57,7 @@ Rpta/. Oceanía.
 
 \pagebreak
 
-## **Ejercicio 2:** 
+## **Ejercicio 2:**
 
 ### match operator `%in%`
 
@@ -141,19 +141,17 @@ Rpta/. Son seis países.
 
 \pagebreak
 
-## **Ejercicio 3:** 
+## **Ejercicio 3:**
 
-Llama a la base de datos `airquality` y calcula el promedio y la desviación estándar de las primeras 4 columnas de la base de datos, agrupando los datos por mes (columna `Month`). Redondea el resultado a dos decimales con la función `round()`. Asigna el resultado con el nombre `prom.meses`.
+Llama a la base de datos `airquality` y calcula el promedio y la desviación estándar de las primeras 4 columnas de la base de datos, agrupando los datos por mes (columna `Month`). Asigna el resultado con el nombre `prom.meses`. Redondea el resultado a dos decimales con la función `round()`
 
 ```{r}
 # Escribe tu código aquí
-prom.meses <- airquality %>% 
-  group_by(Month) %>%
-  select(1:4) %>% 
-  summarise_all(funs(mean), na.rm=TRUE) %>% round()
+prom.meses <- airquality %>%  group_by(Month) %>%
+  select(1:4) %>%  summarise_all(funs(mean), na.rm=TRUE)
 
 # Visualiza prom.meses
-prom.meses
+round(prom.meses[2:5])
 ```
 
 Modifica el tibble `prom.meses` convirtiendo la columna `Month` a factor y cambiando los valores numéricos por el nombre de cada mes según corresponda.
@@ -171,7 +169,7 @@ prom.meses
 
 \pagebreak
 
-## **Ejercicio 4:** 
+## **Ejercicio 4:**
 
 Une los valores de la columna `Month` y `Day` de la base de datos `airquality` en una nueva columna llamada `Mes_Dia`, consignando el separador el guión bajo `"_"`. Usa alguna de las funciones de la parte de tablas anchas o largas de la clase, y usa pipe lo más que puedas en tu código. Filtra las filas que tengan valores de radiación solar (columna `Solar.R`) mayores a 250 y valores de ozono (columna `Ozone`) mayores a 40.
 
