@@ -143,7 +143,7 @@ Rpta/. Son seis países.
 
 ## **Ejercicio 3:**
 
-Llama a la base de datos `airquality` y calcula el promedio y la desviación estándar de las primeras 4 columnas de la base de datos, agrupando los datos por mes (columna `Month`). Asigna el resultado con el nombre `prom.meses`. Redondea el resultado a dos decimales con la función `round()`
+Llama a la base de datos `airquality` y calcula el promedio y la desviación estándar de las primeras 4 columnas de la base de datos, agrupando los datos por mes (columna `Month`). Asigna el resultado con el nombre `prom.meses`. Redondea los valores numéricos de `prom.meses` a dos decimales con la función `round()`
 
 ```{r}
 # Escribe tu código aquí
