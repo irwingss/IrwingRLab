@@ -15,8 +15,6 @@ chunk_output_type: console
 
 # **Práctica de Casa 03 - Análisis Estadístico Básico I**
 
-Last compiled: `r Sys.Date()`
-
 Link de la práctica desarrollada: [Práctica de Casa 03 - Análisis Estadístico Básico I (irwingss.github.io)](https://irwingss.github.io/IrwingRLab/PractCasa03-full.html)
 
 Realiza los siguientes ejercicios durante tu tiempo libre para reforzar la información sobre análisis estadístico que hemos aprendido entre las semanas 4 y 5 del programa (Curso 2).

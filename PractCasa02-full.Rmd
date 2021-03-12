@@ -15,8 +15,6 @@ chunk_output_type: console
 
 # **Práctica de Casa 02 - Programación con R y dplyr**
 
-Last compiled: `r Sys.Date()`
-
 Link de la práctica desarrollada: [Introducción a R para Ciencias C1-S3-clase2 (irwingss.github.io)](https://irwingss.github.io/IrwingRLab/PractCasa02-full.html)
 
 Realiza los siguientes ejercicios durante tu tiempo libre para mejorar tus habilidades de manejo del lenguaje de programación R.
