@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Análisis Estadístico Básico con R</title>
+
+<script src="site_libs/header-attrs-2.7.3/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IrwingRLab</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Inicio</a>
+</li>
+<li>
+  <a href="PractCasa01-full.html">Practica de Casa 1</a>
+</li>
+<li>
+  <a href="PractCasa02-full.html">Practica de Casa 2</a>
+</li>
+<li>
+  <a href="PractCasa03-full.html">Practica de Casa 3</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Análisis Estadístico Básico con R</h1>
+
+</div>
+
+
+<div id="práctica-de-casa-03---análisis-estadístico-básico-i" class="section level1">
+<h1><strong>Práctica de Casa 03 - Análisis Estadístico Básico I</strong></h1>
+<p>Last compiled: 2021-03-11</p>
+<p>Link de la práctica desarrollada: <a href="https://irwingss.github.io/IrwingRLab/PractCasa03-full.html">Práctica de Casa 03 - Análisis Estadístico Básico I (irwingss.github.io)</a></p>
+<p>Realiza los siguientes ejercicios durante tu tiempo libre para reforzar la información sobre análisis estadístico que hemos aprendido entre las semanas 4 y 5 del programa (Curso 2).</p>
+<p>Recuerda realizar esta práctica luego de haber desarrollado:</p>
+<ul>
+<li><p>R-Notebook-C2-S1.Rmd</p></li>
+<li><p>R-Notebook-C2-S2.Rmd</p></li>
+</ul>
+<blockquote>
+<p><strong>Nota 1:</strong> Si necesitas crear un code chunk los atajos en el teclado son en WINDOWS: <code>Crtl+Alt+i</code>, y en MAC: <code>Command+Alt+i</code>.</p>
+<p><strong>Nota 2:</strong> Deberás descargar los archivos excel del Campus Virtual de Instituto de Ciencias Antonio Brack para que los cargues a R y puedas desarrollar los ejercicios. Para poder cargarlos ejecutándo el código que te dejamos en cada ejercicio, debes verificar que pegaste los archivos excel en el directorio de trabajo actual de tu RStudio, el cual puedes conocer si ejecutas:</p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div>
+<p>Activa las librarías a usar</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(moments)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nortest)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span></code></pre></div>
+</div>
+<div id="ejercicio-1-comparaciones-de-una-muestra" class="section level1">
+<h1><strong>Ejercicio 1: Comparaciones de una muestra</strong></h1>
+<p>Se tiene un conjunto de datos de pesos de una muestra de ratones. Se quiere conocer si el promedio de peso del grupo de ratones es significativamente:</p>
+<ol style="list-style-type: decimal">
+<li><p>diferente de 26 gr.,</p></li>
+<li><p>mayor a 26 gr.,</p></li>
+<li><p>menor a 26 gr.</p></li>
+</ol>
+<p>Debes, por lo tanto, realizar tres test de comparación de grupos. Antes de realizar los análisis, deberás comprobar normalidad del conjunto de datos de peso utilizando todas las técnicas aprendidas en clase.</p>
+<p>Carga el excel <code>data_ratones.xlsx</code> y asígnale el nombre <code>ratones</code>.</p>
+<p>Desarrolla lo siguiente:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga el excel data_ratones.xlsx y asígnale el nombre ratones.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ratones <span class="ot">&lt;-</span> openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;~</span><span class="sc">\\</span><span class="st">Proyectos_R</span><span class="sc">\\</span><span class="st">2021</span><span class="sc">\\</span><span class="st">R Data Science</span><span class="sc">\\</span><span class="st">C2-S2</span><span class="sc">\\</span><span class="st">data_ratones.xlsx&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza un boxplot y gráfico de densidad para </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># explorar cómo luce la distribución de los datos.</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Trata de analizar la curva y predecir si habría </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># normalidad en los datos:</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Boxplot:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico de Densidad:</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(ratones<span class="sc">$</span>peso), <span class="at">main =</span> <span class="st">&quot;Peso ratones&quot;</span>)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-3-2.png" /><!-- --></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ejecuta un test de normalidad con los datos:</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  ratones$peso
+## W = 0.9526, p-value = 0.6993</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica la simetría y curtosis del conjunto de datos:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(moments)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">skewness</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<pre><code>## [1] -0.4288947</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kurtosis</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<pre><code>## [1] 2.669256</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crea un gráfico Q-Q Plot</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(ratones<span class="sc">$</span>peso)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-3-3.png" /><!-- --></p>
+<p><strong>Sección de aprendizaje</strong><br />
+Ahora aprenderás a realizar un Q-Q Plot más rápido con la función qqPlot() de la libraría car. Instala la librería car desde el panel Packages/Install o ejecutándo el siguiente código:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;car&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Activa la librería car</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Crea el qqPlot() de la base de datos ratones$peso</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">qqPlot</span>(ratones<span class="sc">$</span>peso)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+<pre><code>## [1] 4 3</code></pre>
+<p><strong>Continua con el Ejercicio 1:</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 1: Averigua si el promedio de peso de los ratones evaluados</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># difiere significativamente de 25 gr (prueba de dos colas)</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ratones<span class="sc">$</span>peso, <span class="at">mu =</span> <span class="dv">26</span>, <span class="at">alternative =</span> <span class="st">&quot;two.sided&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  ratones$peso
+## t = -10.657, df = 9, p-value = 2.102e-06
+## alternative hypothesis: true mean is not equal to 26
+## 95 percent confidence interval:
+##  17.8172 20.6828
+## sample estimates:
+## mean of x 
+##     19.25</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 2: Averigua si el promedio de peso de los ratones evaluados</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># es significativamente menor que 25 gr (prueba de una colas)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ratones<span class="sc">$</span>peso, <span class="at">mu =</span> <span class="dv">26</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  ratones$peso
+## t = -10.657, df = 9, p-value = 1.051e-06
+## alternative hypothesis: true mean is less than 26
+## 95 percent confidence interval:
+##      -Inf 20.41105
+## sample estimates:
+## mean of x 
+##     19.25</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 3: Averigua si el promedio de peso de los ratones evaluados</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># es significativamente mayor que 25 gr (prueba de una colas)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(ratones<span class="sc">$</span>peso, <span class="at">mu =</span> <span class="dv">26</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  ratones$peso
+## t = -10.657, df = 9, p-value = 1
+## alternative hypothesis: true mean is greater than 26
+## 95 percent confidence interval:
+##  18.08895      Inf
+## sample estimates:
+## mean of x 
+##     19.25</code></pre>
+</div>
+<div id="ejercicio-2-comparaciones-de-dos-muestras" class="section level1">
+<h1><strong>Ejercicio 2: Comparaciones de dos muestras</strong></h1>
+<p>En un estudio, se han evaluado el efecto de 2 drogas (Columna <code>Droga</code>, valores A y B) en 8 pacientes y se pretende conocer:</p>
+<ol style="list-style-type: decimal">
+<li><p>si existen diferencias significativas entre el conjunto de datos de la droga A y el conjunto de la droga B.</p></li>
+<li><p>si el promedio del grupo A es significativamente mayor al promedio del grupo B.</p></li>
+<li><p>si el promedio del grupo A es significativamente menor al promedio del grupo B.</p></li>
+</ol>
+<p>Debes realizar tres test de T. Da un vistazo a los datos para decidir cual test debes realizar en base a la independencia de los datos o diferencia de varianza.</p>
+<p>Carga el excel <code>glicolipido.xlsx</code> y asígnale el nombre <code>glico</code>.</p>
+<p>Desarrolla lo siguiente:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga el excel glicolipido.xlsx y asígnale el nombre glico.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>glico <span class="ot">&lt;-</span> openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;~</span><span class="sc">\\</span><span class="st">Proyectos_R</span><span class="sc">\\</span><span class="st">2021</span><span class="sc">\\</span><span class="st">R Data Science</span><span class="sc">\\</span><span class="st">C2-S2</span><span class="sc">\\</span><span class="st">glicolipido.xlsx&quot;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el boxplot para cada droga</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Glicolipido<span class="sc">~</span>Droga, <span class="at">data=</span>glico)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 1: averigua si existen diferencias significativas entre el conjunto de datos de la droga A y el conjunto de la droga B</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Droga, <span class="at">data =</span> glico, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Droga
+## t = 5.9368, df = 7, p-value = 0.0005777
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   6.904491 16.045509
+## sample estimates:
+## mean of the differences 
+##                  11.475</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 2: averigua si el promedio del grupo A es significativamente mayor al promedio del grupo B</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Droga, <span class="at">data =</span> glico, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Droga
+## t = 5.9368, df = 7, p-value = 0.0002888
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  7.813028      Inf
+## sample estimates:
+## mean of the differences 
+##                  11.475</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 3: averigua si el promedio del grupo A es significativamente menor al promedio del grupo B.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Droga, <span class="at">data =</span> glico, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Droga
+## t = 5.9368, df = 7, p-value = 0.9997
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##      -Inf 15.13697
+## sample estimates:
+## mean of the differences 
+##                  11.475</code></pre>
+</div>
+<div id="ejercicio-3-comparaciones-de-dos-muestras" class="section level1">
+<h1><strong>Ejercicio 3: Comparaciones de dos muestras</strong></h1>
+<p>Siguiendo con la misma base de datos anterior, verifica si existen diferencias estadísticas entre los sexos para la medición de glicolipido (columna Glicolipido). Comprueba:</p>
+<ol style="list-style-type: decimal">
+<li><p>si existen diferencias significativas entre el conjunto de datos sexo Hombre y el conjunto sexo Mujer.</p></li>
+<li><p>si el promedio del sexo Hombre es significativamente mayor al promedio del sexo Mujer.</p></li>
+<li><p>si el promedio del sexo Hombre es significativamente menor al promedio del sexo Mujer.</p></li>
+</ol>
+<p>Debes realizar tres test de T. Da un vistazo a los datos para decidir cual test debes realizar en base a la independencia de los datos o diferencia de varianza.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 1: averigua si existen diferencias significativas entre el conjunto sexo Hombre y el conjunto sexo Mujer</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Sexo, <span class="at">data =</span> glico, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Sexo
+## t = -0.67495, df = 7, p-value = 0.5214
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -2.139111  1.189111
+## sample estimates:
+## mean of the differences 
+##                  -0.475</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 2: averigua si el promedio del sexo Hombre es significativamente mayor al promedio del sexo Mujer</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Sexo, <span class="at">data =</span> glico, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;greater&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Sexo
+## t = -0.67495, df = 7, p-value = 0.7393
+## alternative hypothesis: true difference in means is greater than 0
+## 95 percent confidence interval:
+##  -1.808315       Inf
+## sample estimates:
+## mean of the differences 
+##                  -0.475</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Test 3: averigua si el promedio del sexo Hombre es significativamente menor al promedio del sexo Mujer</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Glicolipido <span class="sc">~</span> Sexo, <span class="at">data =</span> glico, </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">paired =</span> <span class="cn">TRUE</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  Glicolipido by Sexo
+## t = -0.67495, df = 7, p-value = 0.2607
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##       -Inf 0.8583148
+## sample estimates:
+## mean of the differences 
+##                  -0.475</code></pre>
+</div>
+<div id="ejercicio-4-lm" class="section level1">
+<h1><strong>Ejercicio 4: LM</strong></h1>
+<p>Un estudio de la microbiota del suelo de una región trató de averiguar cuánto varía la concentración de nitrógeno disponible en el suelo (columna <code>conc.N</code>) en relación a la cantidad de colonias de bacterias nitrificantes (columna <code>colonias</code>) halladas en las muestras obtenidas de la siembra estandarizada en placas petri.</p>
+<p>Carga el excel <code>suelos.xlsx</code> y asígnale el nombre <code>suelos</code>.</p>
+<div id="parte-1-modelos-lineales-simples" class="section level3">
+<h3><strong>Parte 1: Modelos lineales simples</strong></h3>
+<p>Desarrolla lo siguiente:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga el excel suelos.xlsx y asígnale el nombre suelos.</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>suelos <span class="ot">&lt;-</span>  openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;~</span><span class="sc">\\</span><span class="st">Proyectos_R</span><span class="sc">\\</span><span class="st">2021</span><span class="sc">\\</span><span class="st">R Data Science</span><span class="sc">\\</span><span class="st">C2-S2</span><span class="sc">\\</span><span class="st">suelos.xlsx&quot;</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Búsqueda de outliers con boxplot</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(suelos<span class="sc">$</span>conc.N)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot.stats</span>(suelos<span class="sc">$</span>conc.N)<span class="sc">$</span>out</span></code></pre></div>
+<pre><code>## [1] 70 50</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eliminación de outliers</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>outliers  <span class="ot">&lt;-</span> <span class="fu">identify_outliers</span>(suelos, conc.N)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>sinOutliers <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(suelos, outliers) </span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;conc.N&quot;, &quot;colonias&quot;, &quot;plant.simbio&quot;, &quot;div.esp.descomp&quot;)</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificando que suelos ya no contiene outliers</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(sinOutliers<span class="sc">$</span>conc.N)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-9-2.png" /><!-- --></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica linearidad de las variables respuesta y explicativa</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sinOutliers)</span></code></pre></div>
+<pre><code>## [1] &quot;conc.N&quot;          &quot;colonias&quot;        &quot;plant.simbio&quot;    &quot;div.esp.descomp&quot;</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(conc.N<span class="sc">~</span>colonias, <span class="at">data=</span>sinOutliers)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-9-3.png" /><!-- --></p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el modelo</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(conc.N<span class="sc">~</span>colonias, <span class="at">data=</span>sinOutliers)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica las asunciones teóricas restantes</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-9-4.png" /><!-- --></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="co">#usa siempre dev.off() luego de par() para evitar que siga activo</span></span></code></pre></div>
+<pre><code>## null device 
+##           1</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Comprueba la normalidad de los residuales, obtenidos con la función resid()</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>nortest<span class="sc">::</span><span class="fu">ad.test</span>(<span class="fu">resid</span>(modelo))</span></code></pre></div>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  resid(modelo)
+## A = 0.49121, p-value = 0.217</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>moments<span class="sc">::</span><span class="fu">skewness</span>(<span class="fu">resid</span>(modelo))</span></code></pre></div>
+<pre><code>## [1] -0.08863202</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>moments<span class="sc">::</span><span class="fu">kurtosis</span>(<span class="fu">resid</span>(modelo))</span></code></pre></div>
+<pre><code>## [1] 2.779015</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(<span class="fu">resid</span>(modelo)))</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtén los resultados del modelo e interprétalo</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = conc.N ~ colonias, data = sinOutliers)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.0632  -2.3454  -0.2295   2.4805   8.6548 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 8.439112   0.549412   15.36   &lt;2e-16 ***
+## colonias    0.047537   0.002691   17.67   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.91 on 198 degrees of freedom
+## Multiple R-squared:  0.6119, Adjusted R-squared:  0.6099 
+## F-statistic: 312.1 on 1 and 198 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><strong>Interpreta los resultados de la regresión y responde:</strong></p>
+<p><strong>P1:</strong> <em>¿El modelo fue significativo?</em></p>
+<p><strong>Rpta/.</strong> Sí, con p-value: &lt; 2.2e-16, generado a partir de la prueba F con valor 312.1 y 198 grados de libertad.</p>
+<p><strong><br />
+P2:</strong> <em>¿Cuánto aumenta el nitrógeno en relación a las colonias de bacterias nitrificantes contabilizadas en la muestra?</em></p>
+<p><strong>Rpta/.</strong> Por cada colonia contabilizada en la muestra sembrada en placa petri, la concentración del nitrógeno en el suelo aumenta en 0.048 unidades.</p>
+<p><strong>P3:</strong> <em>¿Cuánta varianza de la variable respuesta es explicada por la variable respuesta?</em></p>
+<p><strong>Rpta/.</strong> 60.99%, debido al Adjusted R-squared: 0.6099</p>
+</div>
+<div id="parte-2-modelos-lineales-múltiples-aditivos" class="section level3">
+<h3><strong>Parte 2: Modelos lineales múltiples (aditivos)</strong></h3>
+<p>Considera incluir en el modelo dos nuevas variables explicativas: un indice de diversidad de plantas <code>plant.simbio</code> y la diversidad de especies descomponedoras de materia orgánica <code>div.esp.descomp</code> como potenciales variables que puedan mejorar el modelo. Crea la variable <code>modelo2</code> incluyendo dichas nuevas variables y verifica:</p>
+<ol style="list-style-type: decimal">
+<li><p>Si <code>modelo2</code> es significativo.</p></li>
+<li><p>Si hay variables que no sean significativas (ver columna <code>Pr(&gt;|t|)</code> en el resumen de <code>summary()</code>).</p></li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sinOutliers)</span></code></pre></div>
+<pre><code>## [1] &quot;conc.N&quot;          &quot;colonias&quot;        &quot;plant.simbio&quot;    &quot;div.esp.descomp&quot;</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(conc.N<span class="sc">~</span>colonias<span class="sc">+</span>plant.simbio<span class="sc">+</span>div.esp.descomp, <span class="at">data=</span>sinOutliers)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(conc.N<span class="sc">~</span>.,<span class="at">data=</span>sinOutliers)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = conc.N ~ ., data = sinOutliers)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5161  -1.0677   0.2979   1.4510   3.4013 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      3.565738   0.442005   8.067 7.05e-14 ***
+## colonias         0.045751   0.001394  32.824  &lt; 2e-16 ***
+## plant.simbio     0.187530   0.008311  22.564  &lt; 2e-16 ***
+## div.esp.descomp -0.001294   0.005660  -0.229    0.819    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.023 on 196 degrees of freedom
+## Multiple R-squared:  0.8972, Adjusted R-squared:  0.8956 
+## F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>De haber detectado alguna variable explicativa no significativa, esta debe ser eliminada del modelo ya que le no aportan nada. Por el contrario, el modelo se beneficia al eliminar variables no significativas. Crea la variable <code>modelo3</code> que contenga el nuevo modelo mejorado.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>modelo3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(conc.N<span class="sc">~</span>.,<span class="at">data=</span>sinOutliers[,<span class="sc">-</span><span class="dv">4</span>])</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo3)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = conc.N ~ ., data = sinOutliers[, -4])
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -10.5572  -1.0502   0.2906   1.4049   3.3994 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   3.50532    0.35339   9.919   &lt;2e-16 ***
+## colonias      0.04575    0.00139  32.909   &lt;2e-16 ***
+## plant.simbio  0.18799    0.00804  23.382   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 2.018 on 197 degrees of freedom
+## Multiple R-squared:  0.8972, Adjusted R-squared:  0.8962 
+## F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><strong>P4:</strong> <em>¿El modelo muestra alguna mejora respecto a la cantidad de varianza explicada por las variables independientes (explicativas)? (comparar R cuadrados ajustados de los modelos 2 y 3)</em></p>
+<p><strong>Rpta/.</strong> Sí se mejoró el modelo al incluir a la variable plant.simbio, con un R2 ajustado de 0.89, es decir que las variables explicativas de este modelo explican el 89% de la varianza de la variable respuesta <code>conc.N</code>.</p>
+</div>
+<div id="parte-3-interpretación-de-coeficientes-en-modelos-simples-o-múltiples-aditivos" class="section level3">
+<h3><strong>Parte 3: Interpretación de coeficientes en modelos simples o múltiples aditivos</strong></h3>
+<p>En consecuencia, podemos leer un modelo simple y aditivo de la siguiente manera, siendo que la fórmula de una regresión simple es:</p>
+<p><span class="math display">\[
+y=β0+β1∗x1
+\]</span></p>
+<p>y la de una regresión múltiple aditiva con dos variables explicativas es:</p>
+<p><span class="math display">\[
+y=β0+β1∗x1+β2∗x2
+\]</span></p>
+<p><strong>En ambos casos, los coeficientes se leen igual:</strong></p>
+<ul>
+<li><p><strong>Intercepto (β0):</strong> es el promedio de la variable respuesta y cuando la o las variables respuesta son 0 (es decir, sin contar con el efecto de la variable explicativa).</p>
+<p><span class="math display">\[
+y=β0+β1∗(0) = β0+0 = β0  
+\]</span></p></li>
+</ul>
+<p>o para las regresiones múltiples aditivas<span class="math display">\[
+y=β0+β1∗(0)+β2∗(0) = β0+0+0 = β0  
+\]</span></p>
+<ul>
+<li><strong>Pendiente de x1 (β1) o x2 (β2):</strong> se interpreta como "el aumento de 1 unidad de la variable explicativa x1, representa un aumento de β1 en el promedio de la variable respuesta y. Lo mismo para x2 y su respectivo aumento β2.</li>
+</ul>
+</div>
+<div id="parte-4-modelos-lineales-múltiples-interacción" class="section level3">
+<h3><strong>Parte 4: Modelos lineales múltiples (interacción)</strong></h3>
+<p>Este tipo de modelos se desarrollan cuando uno quiere responder preguntas del tipo:</p>
+<ol style="list-style-type: decimal">
+<li><p>¿La variable C modera la relación entre B y A?,</p></li>
+<li><p>¿La fuerza del efecto B y A depende de C?,</p></li>
+<li><p>¿Cómo afecta C a la relación entre B y A? ,</p></li>
+<li><p>¿Cómo influye C en la relación B y A?</p></li>
+</ol>
+<p>Ahora, verifica si es que, adicionalmente a los efectos principales individuales de las variables, existe algún efecto significativo de la interacción de las variables respuesta <code>colonias</code> y <code>plant.simbio</code> que explique algo de la varianza restante de la variable respuesta <code>conc.N</code>. Para indicar interacciones debes colocar un símbolo de multiplicación entre las variables que deseas que interactúen en el modelo.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>modelo4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(conc.N <span class="sc">~</span> colonias<span class="sc">*</span>plant.simbio, <span class="at">data =</span> sinOutliers)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo4)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = conc.N ~ colonias * plant.simbio, data = sinOutliers)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.6039 -0.4833  0.2197  0.7137  1.8295 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)           8.100e+00  2.974e-01  27.233   &lt;2e-16 ***
+## colonias              1.910e-02  1.504e-03  12.699   &lt;2e-16 ***
+## plant.simbio          2.886e-02  8.905e-03   3.241   0.0014 ** 
+## colonias:plant.simbio 9.054e-04  4.368e-05  20.727   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.132 on 196 degrees of freedom
+## Multiple R-squared:  0.9678, Adjusted R-squared:  0.9673 
+## F-statistic:  1963 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="parte-5-interpretación-de-coeficientes-en-modelos-lineales-múltiples-interacción" class="section level3">
+<h3><strong>Parte 5: Interpretación de coeficientes en modelos lineales múltiples (interacción)</strong></h3>
+<p>Cuando existe un efecto de interacción, el efecto de una variable explicativa (x1) depende de los valores de una o más variables explicativas (x2, x3,…).</p>
+<p>La interacción en un modelo con interacciones cambia el cómo interpretamos los resultados. Primero hay que revisar si la interacción fue significativa. Antes de interpretar, revisemos la fórmula de la regresión múltiple con interacción:<span class="math display">\[
+y=b0+b1∗x1+b2∗x2+b3∗x1∗x2
+\]</span></p>
+<p>Si factorizamos la fórmula tomando en cuenta x1, tenemos:</p>
+<p><span class="math display">\[
+y=(b0+b2∗x2)+(b1+b3∗x2)∗x1
+\]</span></p>
+<p>Si nos percatamos, esa fórmula se asemeja en estructura a <span class="math inline">\(y=b0+b1*x1\)</span>, ¿cierto?, significa que de la ecuación anterior, <span class="math inline">\((b1+b3∗x2)\)</span> es la pendiente de x1. Es decir, la pendiente de la variable x1 cambiará por la influencia de la variable x2.</p>
+<p>Cuando se realiza una regresión múltiple con interacciones buscamos interpretar el término de la interacción, por lo que no nos interesa demasiado el efecto de cada variable respuesta independientemente una de la otra.</p>
+<ul>
+<li><u>El efecto de <code>colonias</code>(la primera variable explicativa) es:</u> <span class="math inline">\(β1*x1+ β3*x1*x2\)</span></li>
+</ul>
+<p>lo que es en nuestro ejemplo: <span class="math inline">\(β1*colonias + β3*colonias*plant.simbio\)</span></p>
+<p>Reemplazando los valores de la regresión β1 es 0.04575 y β3 es 0.18799, tenemos: <span class="math inline">\(0.04575*colonias + 0.18799*colonias*plant.simbio\)</span></p>
+<p>Para interpretar decimos, si la variable <code>plant.simbio</code> es 0 (el indice de diversidad de plantas simbióticas es 0), entonces <code>conc.N</code> (la variable respuesta <code>y</code>) se reduce a <span class="math inline">\(0.04575*colonias + 0.18799*colonias*0 = 0.04575*colonias\)</span>, es decir, cuando <code>plant.simbio</code> es 0, una unidad de incremento de colonias, aumenta el promedio esperado de la variable <code>conc.N</code> (y) en 0.04575 unidades.</p>
+<p>Para interpretar decimos, si la variable <code>plant.simbio</code> es 1 (el indice de diversidad de plantas simbióticas es 0), entonces <code>conc.N</code> (la variable respuesta <code>y</code>) se reduce a <span class="math inline">\(0.04575*colonias + 0.18799*colonias*1 = 0.04575*colonias + 0.18799*colonias\)</span>, es decir, cuando <code>plant.simbio</code> es 1, una unidad de incremento de colonias, incrementa el promedio esperado de la variable <code>conc.N</code> (y) en 0.04575 + 0.18799 unidades, o 0.23374 unidades.</p>
+<ul>
+<li><p>De la misma manera podrías interpretar el efecto de <code>plant.simbio.</code></p></li>
+<li><p><strong>Haciendo una interpretación “más del mundo real”</strong>, podemos decir: la concentración de nitrógeno (<code>conc.N</code>) tiende a ser mayor en zonas donde la cantidad de unidades formadoras de colonias (<code>colonias</code>) es mayor; sin embargo, esta relación se incrementa más cuando los suelos, además de tener mayor abundancia de unidades formadoras de colonias, tiene también mayor diversidad de plantas simbióticas (<code>plant.simbio</code>). En suma, la fuerza de la relación positiva entre <code>conc.N</code> (y) y <code>colonias</code> (x1) depende de la presencia de un mayor valor de <code>plant.simbio</code> (x2) en la zona de estudios.</p></li>
+</ul>
+<blockquote>
+<p><strong>Nota final:</strong> Gracias al principio jerárquico en modelos lineales, si incluimos una interacción en un modelo y es significativa, no importa si p-valores de los efectos independientes no lo son.</p>
+</blockquote>
+</div>
+</div>
+<div id="ejercicio-5-anova" class="section level1">
+<h1><strong>Ejercicio 5: ANOVA</strong></h1>
+<p>Se realizaron mediciones de la longitud total coporal (columna <code>long_total</code>) de tres subespecie de la especie Microlophus thoraccicus, halladas en la costa norte de Peru. Realiza en análisis de varianza ANOVA para corroborar si existen diferencias entre los grupos. De hallar diferencias, identifica el grupo que es diferente entre los tres. Carga el excel sp.xlsx para realizar este ejercicio.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga el excel sp.xlsx y asígnale el nombre sp</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;~</span><span class="sc">\\</span><span class="st">Proyectos_R</span><span class="sc">\\</span><span class="st">2021</span><span class="sc">\\</span><span class="st">R Data Science</span><span class="sc">\\</span><span class="st">C2-S2</span><span class="sc">\\</span><span class="st">sp.xlsx&quot;</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Elimina outliers</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> sp <span class="sc">%&gt;%</span> </span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ssp) <span class="sc">%&gt;%</span> </span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">identify_outliers</span>(long_total)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a>sp2 <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(sp,out)</span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Con la base de datos filtrada, si es que fue necesario,</span></span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a><span class="co"># analiza qué anova realizarás. Comprueba si se debe </span></span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a><span class="co"># realizar un anova balanceado o no balanceado.</span></span>
+<span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(sp<span class="sc">$</span>ssp)</span>
+<span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el modelo lineal y asignalo con le nombre &quot;modelo&quot;</span></span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>modelo  <span class="ot">&lt;-</span> <span class="fu">lm</span>(long_total <span class="sc">~</span> ssp, <span class="at">data =</span> sp)</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el ANOVA</span></span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo) </span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica la normalidad de los residuales</span></span>
+<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">resid</span>(modelo))</span>
+<span id="cb62-24"><a href="#cb62-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-25"><a href="#cb62-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica la homogeneidad de varianzas</span></span>
+<span id="cb62-26"><a href="#cb62-26" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(long_total <span class="sc">~</span> ssp, <span class="at">data =</span> sp)</span>
+<span id="cb62-27"><a href="#cb62-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-28"><a href="#cb62-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el Test posthoc respectivo</span></span>
+<span id="cb62-29"><a href="#cb62-29" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(modelo))</span></code></pre></div>
+</div>
+<div id="ejercicio-6-balancear-un-anova-una-vía" class="section level1">
+<h1><strong>Ejercicio 6: Balancear un ANOVA (una vía)</strong></h1>
+<p>Muchas veces tenemos N muestral suficiente como para uniformizar el ANOVA. Esta decisión, puede explotar lo mejor del ANOVA balanceado frente a uno desbalanceado. En general, se asume que los ANOVA balanceados tienen un mayor poder estadístico, menor susceptibilidad ante ligeras desviaciones del supuesto de homocedasticidad (igualdad) de varianzas entre grupos, que lo ANOVA no balanceados. Así que este procedimiento te ayudará ante aquellas situaciones en las que necesites balancear.</p>
+<p>En el siguiente ejemplo verificaremos si existe diferencias significativas entre los niveles de la variable explicativa <code>tratamiento</code>, respecto a la variable respuesta <code>y</code>. Los niveles de la variable explicativa son 3: Ctrl, trat1 y trat2. Esta base de datos es desbalanceada. Verifica la presencia de outliers y elimínalos. Posteriormente, trata de balancear el análisis, eliminando aleatoriamente filas dentro de los niveles que lo requieran para que todos tengan la misma cantidad de observaciones. Continua verificando los supuestos teóricos del ANOVA balanceado y obtén los resultados. Si el ejercicio lo requiere, realiza un test post hoc para identificar qué nivel de <code>tratamiento</code> es el que genera un mayor incremento en el promedio estimado de la variable <code>y</code>.</p>
+<p>Carga el excel <code>ejercicio_grupos.xlsx</code>para comenzar el ejercicio.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga el excel ejercicio_grupos.xlsx y asígnale el nombre grupos</span></span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>grupos <span class="ot">&lt;-</span> openxlsx<span class="sc">::</span><span class="fu">read.xlsx</span>(<span class="st">&quot;~</span><span class="sc">\\</span><span class="st">Proyectos_R</span><span class="sc">\\</span><span class="st">2021</span><span class="sc">\\</span><span class="st">R Data Science</span><span class="sc">\\</span><span class="st">C2-S2</span><span class="sc">\\</span><span class="st">ejercicio_grupos.xlsx&quot;</span>)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Genera un boxplot para verificar si hay outliers </span></span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="co"># en la variable respuesta y dentro de cada nivel </span></span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a><span class="co"># de la variable tratamiento.</span></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(grupos<span class="sc">$</span>y <span class="sc">~</span> grupos<span class="sc">$</span>tratamiento)</span></code></pre></div>
+<p><img src="PractCasa03-full_files/figure-html/unnamed-chunk-14-1.png" /><!-- --></p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obten los outliers para cada grupo</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="co"># con identify_outliers()</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>outs <span class="ot">&lt;-</span> grupos <span class="sc">%&gt;%</span> </span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(tratamiento) <span class="sc">%&gt;%</span> </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">identify_outliers</span>(y)</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="co"># A2: Elimina los outliers y asigna la tabla limpia con el</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="co"># nombre gruposLimpio</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>gruposLimpio <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(grupos, outs)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;y&quot;, &quot;x1&quot;, &quot;x2&quot;, &quot;grp&quot;, &quot;tratamiento&quot;)</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica si los niveles de tratamiento están balanceados</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gruposLimpio<span class="sc">$</span>tratamiento)</span></code></pre></div>
+<pre><code>## 
+##  Ctrl trat1 trat2 
+##    32    29    30</code></pre>
+<p>Balancea el estudio:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selecciona de manera aleatoria las observaciones (filas)</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="co"># que debes eliminar de gruposLimpio para cada nivel de </span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="co"># tratamiento y así balancear el ANOVA</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>rCtrl <span class="ot">&lt;-</span> gruposLimpio <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tratamiento<span class="sc">==</span><span class="st">&quot;Ctrl&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">3</span>)</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>rtrat2 <span class="ot">&lt;-</span> gruposLimpio <span class="sc">%&gt;%</span> <span class="fu">filter</span>(tratamiento<span class="sc">==</span><span class="st">&quot;trat2&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">1</span>)</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Asigna la base de datos balanceada con el nombre gruposFinal</span></span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>gruposFinal <span class="ot">&lt;-</span> <span class="fu">anti_join</span>(gruposLimpio,rCtrl) <span class="sc">%&gt;%</span> <span class="fu">anti_join</span>(.,rtrat2)</span></code></pre></div>
+<pre><code>## Joining, by = c(&quot;y&quot;, &quot;x1&quot;, &quot;x2&quot;, &quot;grp&quot;, &quot;tratamiento&quot;)
+## Joining, by = c(&quot;y&quot;, &quot;x1&quot;, &quot;x2&quot;, &quot;grp&quot;, &quot;tratamiento&quot;)</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verifica si realmente está balanceado el ANOVA ahora</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gruposFinal<span class="sc">$</span>tratamiento)</span></code></pre></div>
+<pre><code>## 
+##  Ctrl trat1 trat2 
+##    29    29    29</code></pre>
+<p>Verifica los supuestos teóricos restantes</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el modelamiento lineal</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> tratamiento, <span class="at">data=</span>gruposFinal)</span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A3: Verifica la normalidad de los residuales</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">resid</span>(mod1))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  resid(mod1)
+## W = 0.9906, p-value = 0.7915</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>nortest<span class="sc">::</span><span class="fu">ad.test</span>(<span class="fu">resid</span>(mod1))</span></code></pre></div>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  resid(mod1)
+## A = 0.19844, p-value = 0.8838</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A4: Verifica la homogeneidad de varianzas</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(y <span class="sc">~</span> tratamiento, <span class="at">data=</span>gruposFinal)</span></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  y by tratamiento
+## Bartlett&#39;s K-squared = 2.2933, df = 2, p-value = 0.3177</code></pre>
+<p>Realiza el ANOVA final y su respectivo post hoc si es necesario</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo final </span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod1)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: y
+##             Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## tratamiento  2 111.94  55.968  7.7188 0.0008368 ***
+## Residuals   84 609.07   7.251                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Post Hoc</span></span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(mod1))</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = mod1)
+## 
+## $tratamiento
+##                 diff        lwr      upr     p adj
+## trat1-Ctrl  1.258966 -0.4282642 2.946195 0.1824074
+## trat2-Ctrl  2.774483  1.0872530 4.461712 0.0005173
+## trat2-trat1 1.515517 -0.1717125 3.202747 0.0873564</code></pre>
+<p><strong>P1:</strong> <em>¿Existen diferencias significativas entre los grupos?</em></p>
+<p><strong>Rpta/.</strong> el Pr(&gt;F) de la variable tratamiento en el resultado del ANOVA es significativo: 0.0008368 ***</p>
+<p><strong>P2:</strong> <em>¿Cuál es el tratamiento que generó un mayor incremento del promedio de la variable y?</em></p>
+<p><strong>Rpta/.</strong> Al ver el resultado del post hoc, lo primero que se debe revisar es la significancia de las diferencias entre los tratamientos. Las diferencias entre niveles que no son significativos nos indican que no hay evidencia estadística que soporte que dichas restas son diferentes de cero. Por lo que no se puede decir que hay diferencias estadísticas entre los niveles en cuestión. Eso sucede con las restas entre los promedios de <code>trat1-Ctrl</code> y <code>trat2-trat1</code>. Por lo que la única resta de promedios significativa fue <code>trat2-Ctrl</code>= 2.77 (p-valor 0.0005). Interpretando, decimos que: <code>trat2</code> genera un promedio mayor a <code>Ctrl</code>, debido a que la resta de ambos es positiva. Por el contrario, no hay evidencia de que existan diferencias entre <code>trat1-Ctrl</code> y <code>trat2-trat1</code>. En consecuencia, <code>trat2</code> es el tratamiento que genera un mayor incremento de <code>y</code>.</p>
+</div>
+<div id="ejercicio-7-poder-de-análisis" class="section level1">
+<h1><strong>Ejercicio 7: Poder de análisis</strong></h1>
+<p>Conocer el poder de un análisis nos puede ayudar a decidir si podemos incrementar el n muestral para obtener un resultado mucho más fiable, estadísticamente hablando.</p>
+<p>Desarrolla lo siguiente:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula el tamaño del efecto del ANOVA balanceado</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># qaue desarrollaste anteriormente (redondea el valor a dos decimales)</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>rstatix<span class="sc">::</span><span class="fu">eta_squared</span>(<span class="fu">anova</span>(mod1)) <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## tratamiento 
+##        0.16</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcula el poder del análisis de dicho ANOVA</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.anova.test</span>(<span class="at">k=</span><span class="dv">3</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">f =</span> <span class="fl">0.13</span>, <span class="at">n=</span><span class="dv">29</span>)</span></code></pre></div>
+<pre><code>## 
+##      Balanced one-way analysis of variance power calculation 
+## 
+##               k = 3
+##               n = 29
+##               f = 0.13
+##       sig.level = 0.05
+##           power = 0.1708106
+## 
+## NOTE: n is number in each group</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identifica cuál sería el n muestral necesario para obtener</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="co"># un poder de análisis de 80%</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pwr.anova.test</span>(<span class="at">k=</span><span class="dv">3</span>, <span class="at">sig.level =</span> <span class="fl">0.05</span>, <span class="at">f =</span> <span class="fl">0.16</span>, <span class="at">power =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<pre><code>## 
+##      Balanced one-way analysis of variance power calculation 
+## 
+##               k = 3
+##               n = 126.4556
+##               f = 0.16
+##       sig.level = 0.05
+##           power = 0.8
+## 
+## NOTE: n is number in each group</code></pre>
+</div>
+<div id="ejercicio-8-anova-no-balanceado-una-vía" class="section level1">
+<h1><strong>Ejercicio 8: ANOVA No Balanceado (una vía)</strong></h1>
+<p>Trabajemos el ANOVA no balanceado del <strong>Ejercicio 6</strong> y veamos qué diferencias encontramos con los resultados del ANOVA balanceado. Como aquí no necesitamos utilizar los niveles de <code>tratamiento</code> con el mismo n muestral, usaremos la variable creada en el ambiente de R llamada <code>gruposLimpio</code>.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Realiza el modelamiento lineal</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> tratamiento, <span class="at">data=</span>gruposLimpio)</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="co"># A3: Verifica la normalidad de los residuales</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(<span class="fu">resid</span>(mod2))</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  resid(mod2)
+## W = 0.99076, p-value = 0.7795</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>nortest<span class="sc">::</span><span class="fu">ad.test</span>(<span class="fu">resid</span>(mod2))</span></code></pre></div>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  resid(mod2)
+## A = 0.20766, p-value = 0.8625</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A4: Verifica la homogeneidad de varianzas</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(y <span class="sc">~</span> tratamiento, <span class="at">data=</span>gruposLimpio)</span></code></pre></div>
+<pre><code>## 
+##  Bartlett test of homogeneity of variances
+## 
+## data:  y by tratamiento
+## Bartlett&#39;s K-squared = 2.1026, df = 2, p-value = 0.3495</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo final </span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod2)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: y
+##             Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## tratamiento  2 105.97  52.985   7.237 0.001231 **
+## Residuals   88 644.28   7.321                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Post Hoc</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(mod2))</span></code></pre></div>
+<pre><code>##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = mod2)
+## 
+## $tratamiento
+##                 diff         lwr      upr     p adj
+## trat1-Ctrl  1.006185 -0.64766568 2.660036 0.3198435
+## trat2-Ctrl  2.600542  0.96121431 4.239869 0.0008204
+## trat2-trat1 1.594356 -0.08549883 3.274211 0.0665400</code></pre>
+<p>En estos casos de anovas de una vía, balanceados o no, el algoritmo de la función <code>anova()</code> es lo suficientemente robusto para mantener los resultados entre ambos. Esto no es igual para ANOVAs de dos vías.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
