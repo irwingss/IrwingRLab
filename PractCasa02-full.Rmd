@@ -3,18 +3,14 @@ title: "Introducción a R para Ciencias C1-S3-clase2"
 Subtitle: "Programa de Certificación Especializado Data Science: Estadística y Análisis de Datos en R"
 Author: "Instructor: Irwing S. Saldaña"
 output:
-  html_document: 
-    theme: cosmo
-    highlight: pygments
-    toc: yes
-    toc_float: 
-      collapsed: yes
-  pdf_document: 
-    number_sections: yes
-    toc: yes
-    highlight: pygments
+html_document: 
+theme: cosmo
+highlight: pygments
+toc: yes
+toc_float: 
+collapsed: yes
 editor_options: 
-  chunk_output_type: console
+chunk_output_type: console
 ---
 
 # **Práctica de Casa 02 - Programación con R y dplyr**
