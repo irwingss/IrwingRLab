@@ -10,4 +10,6 @@ navbar:
       href: PractCasa02-full.html
     - text: "Practica de Casa 3"
       href: PractCasa03-full.html
+    - text: "Practica de Casa 4"
+      href: PractCasa04-full.html
 output_dir: "docs"
