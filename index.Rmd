@@ -18,7 +18,7 @@ output: html_document
 <div class="row" style="padding-top: 30px;">
 
 ::: {.col-sm-6}
-# **iBrack RLab**  
+# **RLab**
 
 #### *by Irwing S. Saldaña* {.col-sm-6}
 
