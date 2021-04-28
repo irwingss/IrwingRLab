@@ -13,7 +13,7 @@
 
 <title>Análisis Estadístico Básico con R</title>
 
-<script src="site_libs/header-attrs-2.7.3/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -53,6 +53,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -326,17 +327,29 @@ $(document).ready(function () {
         <li>
   <a href="index.html">Inicio</a>
 </li>
-<li>
-  <a href="PractCasa01-full.html">Practica de Casa 1</a>
-</li>
-<li>
-  <a href="PractCasa02-full.html">Practica de Casa 2</a>
-</li>
-<li>
-  <a href="PractCasa03-full.html">Practica de Casa 3</a>
-</li>
-<li>
-  <a href="PractCasa04-full.html">Practica de Casa 4</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Practicas
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="PractCasa01-full.html">Practica de Casa 1: Programación Básica con R</a>
+    </li>
+    <li>
+      <a href="PractCasa02-full.html">Practica de Casa 2: Programación con R y dplyr</a>
+    </li>
+    <li>
+      <a href="PractCasa03-full.html">Practica de Casa 3: Análisis Estadístico Básico</a>
+    </li>
+    <li>
+      <a href="PractCasa04-full.html">Practica de Casa 4: Gráficos Avanzados con ggplot2</a>
+    </li>
+    <li>
+      <a href="PractCasa05-full.html">Practica de Casa 5: Modelos Lineales de Efectos Mixtos (LMM)</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -357,7 +370,6 @@ $(document).ready(function () {
 
 <div id="práctica-de-casa-03---análisis-estadístico-básico-i" class="section level1">
 <h1><strong>Práctica de Casa 03 - Análisis Estadístico Básico I</strong></h1>
-<p>Last compiled: 2021-03-11</p>
 <p>Link de la práctica desarrollada: <a href="https://irwingss.github.io/IrwingRLab/PractCasa03-full.html">Práctica de Casa 03 - Análisis Estadístico Básico I (irwingss.github.io)</a></p>
 <p>Realiza los siguientes ejercicios durante tu tiempo libre para reforzar la información sobre análisis estadístico que hemos aprendido entre las semanas 4 y 5 del programa (Curso 2).</p>
 <p>Recuerda realizar esta práctica luego de haber desarrollado:</p>
@@ -723,24 +735,24 @@ P2:</strong> <em>¿Cuánto aumenta el nitrógeno en relación a las colonias de 
 <h3><strong>Parte 3: Interpretación de coeficientes en modelos simples o múltiples aditivos</strong></h3>
 <p>En consecuencia, podemos leer un modelo simple y aditivo de la siguiente manera, siendo que la fórmula de una regresión simple es:</p>
 <p><span class="math display">\[
-y=β0+β1∗x1
+y=b0+b1∗x1
 \]</span></p>
 <p>y la de una regresión múltiple aditiva con dos variables explicativas es:</p>
 <p><span class="math display">\[
-y=β0+β1∗x1+β2∗x2
+y=b0+b1∗x1+b2∗x2
 \]</span></p>
 <p><strong>En ambos casos, los coeficientes se leen igual:</strong></p>
 <ul>
-<li><p><strong>Intercepto (β0):</strong> es el promedio de la variable respuesta y cuando la o las variables respuesta son 0 (es decir, sin contar con el efecto de la variable explicativa).</p>
+<li><p><strong>Intercepto (b0):</strong> es el promedio de la variable respuesta y cuando la o las variables respuesta son 0 (es decir, sin contar con el efecto de la variable explicativa).</p>
 <p><span class="math display">\[
-y=β0+β1∗(0) = β0+0 = β0  
+y=b0+b1∗(0) = b0+0 = b0  
 \]</span></p></li>
 </ul>
 <p>o para las regresiones múltiples aditivas<span class="math display">\[
-y=β0+β1∗(0)+β2∗(0) = β0+0+0 = β0  
+y=b0+b1∗(0)+b2∗(0) = b0+0+0 = b0  
 \]</span></p>
 <ul>
-<li><strong>Pendiente de x1 (β1) o x2 (β2):</strong> se interpreta como "el aumento de 1 unidad de la variable explicativa x1, representa un aumento de β1 en el promedio de la variable respuesta y. Lo mismo para x2 y su respectivo aumento β2.</li>
+<li><strong>Pendiente de x1 (b1) o x2 (b2):</strong> se interpreta como "el aumento de 1 unidad de la variable explicativa x1, representa un aumento de b1 en el promedio de la variable respuesta y. Lo mismo para x2 y su respectivo aumento b2.</li>
 </ul>
 </div>
 <div id="parte-4-modelos-lineales-múltiples-interacción" class="section level3">
@@ -789,10 +801,10 @@ y=(b0+b2∗x2)+(b1+b3∗x2)∗x1
 <p>Si nos percatamos, esa fórmula se asemeja en estructura a <span class="math inline">\(y=b0+b1*x1\)</span>, ¿cierto?, significa que de la ecuación anterior, <span class="math inline">\((b1+b3∗x2)\)</span> es la pendiente de x1. Es decir, la pendiente de la variable x1 cambiará por la influencia de la variable x2.</p>
 <p>Cuando se realiza una regresión múltiple con interacciones buscamos interpretar el término de la interacción, por lo que no nos interesa demasiado el efecto de cada variable respuesta independientemente una de la otra.</p>
 <ul>
-<li><u>El efecto de <code>colonias</code>(la primera variable explicativa) es:</u> <span class="math inline">\(β1*x1+ β3*x1*x2\)</span></li>
+<li><u>El efecto de <code>colonias</code>(la primera variable explicativa) es:</u> <span class="math inline">\(b1*x1+ b3*x1*x2\)</span></li>
 </ul>
-<p>lo que es en nuestro ejemplo: <span class="math inline">\(β1*colonias + β3*colonias*plant.simbio\)</span></p>
-<p>Reemplazando los valores de la regresión β1 es 0.04575 y β3 es 0.18799, tenemos: <span class="math inline">\(0.04575*colonias + 0.18799*colonias*plant.simbio\)</span></p>
+<p>lo que es en nuestro ejemplo: <span class="math inline">\(b1*colonias + b3*colonias*plant.simbio\)</span></p>
+<p>Reemplazando los valores de la regresión b1 es 0.04575 y b3 es 0.18799, tenemos: <span class="math inline">\(0.04575*colonias + 0.18799*colonias*plant.simbio\)</span></p>
 <p>Para interpretar decimos, si la variable <code>plant.simbio</code> es 0 (el indice de diversidad de plantas simbióticas es 0), entonces <code>conc.N</code> (la variable respuesta <code>y</code>) se reduce a <span class="math inline">\(0.04575*colonias + 0.18799*colonias*0 = 0.04575*colonias\)</span>, es decir, cuando <code>plant.simbio</code> es 0, una unidad de incremento de colonias, aumenta el promedio esperado de la variable <code>conc.N</code> (y) en 0.04575 unidades.</p>
 <p>Para interpretar decimos, si la variable <code>plant.simbio</code> es 1 (el indice de diversidad de plantas simbióticas es 0), entonces <code>conc.N</code> (la variable respuesta <code>y</code>) se reduce a <span class="math inline">\(0.04575*colonias + 0.18799*colonias*1 = 0.04575*colonias + 0.18799*colonias\)</span>, es decir, cuando <code>plant.simbio</code> es 1, una unidad de incremento de colonias, incrementa el promedio esperado de la variable <code>conc.N</code> (y) en 0.04575 + 0.18799 unidades, o 0.23374 unidades.</p>
 <ul>

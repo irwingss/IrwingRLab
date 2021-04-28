@@ -8,17 +8,12 @@ output:
     keep_md: yes
     df_print: default
     highlight: pygments
-  pdf_document: 
-    number_sections: yes
-    toc: yes
-    highlight: pygments
+    fig_width: 10
 editor_options: 
   chunk_output_type: console
 ---
 
 # **Práctica de Casa 03 - Análisis Estadístico Básico I**
-
-Last compiled: 2021-03-11
 
 Link de la práctica desarrollada: [Práctica de Casa 03 - Análisis Estadístico Básico I (irwingss.github.io)](https://irwingss.github.io/IrwingRLab/PractCasa03-full.html)
 
@@ -610,28 +605,28 @@ summary(modelo3)
 En consecuencia, podemos leer un modelo simple y aditivo de la siguiente manera, siendo que la fórmula de una regresión simple es:
 
 $$
-y=β0+β1∗x1
+y=b0+b1∗x1
 $$
 
 y la de una regresión múltiple aditiva con dos variables explicativas es:
 
 $$
-y=β0+β1∗x1+β2∗x2
+y=b0+b1∗x1+b2∗x2
 $$
 
 **En ambos casos, los coeficientes se leen igual:**
 
--   **Intercepto (β0):** es el promedio de la variable respuesta y cuando la o las variables respuesta son 0 (es decir, sin contar con el efecto de la variable explicativa).
+-   **Intercepto (b0):** es el promedio de la variable respuesta y cuando la o las variables respuesta son 0 (es decir, sin contar con el efecto de la variable explicativa).
 
     $$
-    y=β0+β1∗(0) = β0+0 = β0  
+    y=b0+b1∗(0) = b0+0 = b0  
     $$
 
 o para las regresiones múltiples aditivas$$
-y=β0+β1∗(0)+β2∗(0) = β0+0+0 = β0  
+y=b0+b1∗(0)+b2∗(0) = b0+0+0 = b0  
 $$
 
--   **Pendiente de x1 (β1) o x2 (β2):** se interpreta como "el aumento de 1 unidad de la variable explicativa x1, representa un aumento de β1 en el promedio de la variable respuesta y. Lo mismo para x2 y su respectivo aumento β2.
+-   **Pendiente de x1 (b1) o x2 (b2):** se interpreta como "el aumento de 1 unidad de la variable explicativa x1, representa un aumento de b1 en el promedio de la variable respuesta y. Lo mismo para x2 y su respectivo aumento b2.
 
 ### **Parte 4: Modelos lineales múltiples (interacción)**
 
@@ -694,11 +689,11 @@ Si nos percatamos, esa fórmula se asemeja en estructura a $y=b0+b1*x1$, ¿ciert
 
 Cuando se realiza una regresión múltiple con interacciones buscamos interpretar el término de la interacción, por lo que no nos interesa demasiado el efecto de cada variable respuesta independientemente una de la otra.
 
--   [El efecto de `colonias`(la primera variable explicativa) es:]{.ul} $β1*x1+ β3*x1*x2$
+-   [El efecto de `colonias`(la primera variable explicativa) es:]{.ul} $b1*x1+ b3*x1*x2$
 
-lo que es en nuestro ejemplo: $β1*colonias + β3*colonias*plant.simbio$
+lo que es en nuestro ejemplo: $b1*colonias + b3*colonias*plant.simbio$
 
-Reemplazando los valores de la regresión β1 es 0.04575 y β3 es 0.18799, tenemos: $0.04575*colonias + 0.18799*colonias*plant.simbio$
+Reemplazando los valores de la regresión b1 es 0.04575 y b3 es 0.18799, tenemos: $0.04575*colonias + 0.18799*colonias*plant.simbio$
 
 Para interpretar decimos, si la variable `plant.simbio` es 0 (el indice de diversidad de plantas simbióticas es 0), entonces `conc.N` (la variable respuesta `y`) se reduce a $0.04575*colonias + 0.18799*colonias*0 = 0.04575*colonias$, es decir, cuando `plant.simbio` es 0, una unidad de incremento de colonias, aumenta el promedio esperado de la variable `conc.N` (y) en 0.04575 unidades.
 

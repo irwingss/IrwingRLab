@@ -4,14 +4,13 @@
 %
 \documentclass[
 ]{article}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amsmath}
 \usepackage{ifxetex,ifluatex}
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
-  \usepackage{amssymb}
 \else % if luatex or xetex
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
@@ -116,8 +115,6 @@
 \section{\texorpdfstring{\textbf{Práctica de Casa 03 - Análisis
 Estadístico Básico
 I}}{Práctica de Casa 03 - Análisis Estadístico Básico I}}\label{pruxe1ctica-de-casa-03---anuxe1lisis-estaduxedstico-buxe1sico-i}}
-
-Last compiled: 2021-03-11
 
 Link de la práctica desarrollada:
 \href{https://irwingss.github.io/IrwingRLab/PractCasa03-full.html}{Práctica
@@ -863,40 +860,40 @@ En consecuencia, podemos leer un modelo simple y aditivo de la siguiente
 manera, siendo que la fórmula de una regresión simple es:
 
 \[
-y=β0+β1∗x1
+y=b0+b1∗x1
 \]
 
 y la de una regresión múltiple aditiva con dos variables explicativas
 es:
 
 \[
-y=β0+β1∗x1+β2∗x2
+y=b0+b1∗x1+b2∗x2
 \]
 
 \textbf{En ambos casos, los coeficientes se leen igual:}
 
 \begin{itemize}
 \item
-  \textbf{Intercepto (β0):} es el promedio de la variable respuesta y
+  \textbf{Intercepto (b0):} es el promedio de la variable respuesta y
   cuando la o las variables respuesta son 0 (es decir, sin contar con el
   efecto de la variable explicativa).
 
   \[
-  y=β0+β1∗(0) = β0+0 = β0  
+  y=b0+b1∗(0) = b0+0 = b0  
   \]
 \end{itemize}
 
 o para las regresiones múltiples aditivas\[
-y=β0+β1∗(0)+β2∗(0) = β0+0+0 = β0  
+y=b0+b1∗(0)+b2∗(0) = b0+0+0 = b0  
 \]
 
 \begin{itemize}
 \tightlist
 \item
-  \textbf{Pendiente de x1 (β1) o x2 (β2):} se interpreta como "el
+  \textbf{Pendiente de x1 (b1) o x2 (b2):} se interpreta como "el
   aumento de 1 unidad de la variable explicativa x1, representa un
-  aumento de β1~en el promedio de la variable respuesta y. Lo mismo para
-  x2 y su respectivo aumento β2.
+  aumento de b1~en el promedio de la variable respuesta y. Lo mismo para
+  x2 y su respectivo aumento b2.
 \end{itemize}
 
 \hypertarget{parte-4-modelos-lineales-muxfaltiples-interacciuxf3n}{%
@@ -993,12 +990,12 @@ la otra.
 \tightlist
 \item
   \underline{El efecto de \texttt{colonias}(la primera variable
-  explicativa) es:} \(β1*x1+ β3*x1*x2\)
+  explicativa) es:} \(b1*x1+ b3*x1*x2\)
 \end{itemize}
 
-lo que es en nuestro ejemplo: \(β1*colonias + β3*colonias*plant.simbio\)
+lo que es en nuestro ejemplo: \(b1*colonias + b3*colonias*plant.simbio\)
 
-Reemplazando los valores de la regresión β1 es 0.04575 y β3 es 0.18799,
+Reemplazando los valores de la regresión b1 es 0.04575 y b3 es 0.18799,
 tenemos: \(0.04575*colonias + 0.18799*colonias*plant.simbio\)
 
 Para interpretar decimos, si la variable \texttt{plant.simbio} es 0 (el

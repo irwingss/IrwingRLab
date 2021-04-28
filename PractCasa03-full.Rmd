@@ -3,14 +3,14 @@ title: "Análisis Estadístico Básico con R"
 Subtitle: "P.C.E. Data Science: Estadística y Análisis de Datos en R"
 Author: "Irwing S. Saldaña"
 output:
-html_document: 
-theme: cosmo
-highlight: pygments
-toc: yes
-toc_float: 
-collapsed: yes
+  html_document: 
+    theme: cosmo
+    keep_md: yes
+    df_print: default
+    highlight: pygments
+    fig_width: 10
 editor_options: 
-chunk_output_type: console
+  chunk_output_type: console
 ---
 
 # **Práctica de Casa 03 - Análisis Estadístico Básico I**

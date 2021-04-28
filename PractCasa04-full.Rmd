@@ -9,10 +9,6 @@ output:
     df_print: default
     highlight: pygments
     fig_width: 10
-  pdf_document: 
-    number_sections: yes
-    toc: yes
-    highlight: pygments
 editor_options: 
   chunk_output_type: console
 ---
