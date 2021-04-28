@@ -1,20 +1,20 @@
-name: "IrwingRLab"
+name: "R Lationamérica - RLab"
 navbar:
-  title: "IrwingRLab"
+  title: "R Lationamérica - RLab"
   left:
     - text: "Inicio"
       href: index.html
-    - text: "Practicas"
+    - text: "Prácticas"
       menu:
-      - text: "Practica de Casa 1: Programación Básica con R"
+      - text: "Práctica de Casa 1: Programación Básica con R"
         href: PractCasa01-full.html
-      - text: "Practica de Casa 2: Programación con R y dplyr"
+      - text: "Práctica de Casa 2: Programación con R y dplyr"
         href: PractCasa02-full.html
-      - text: "Practica de Casa 3: Análisis Estadístico Básico"
+      - text: "Práctica de Casa 3: Análisis Estadístico Básico"
         href: PractCasa03-full.html
-      - text: "Practica de Casa 4: Gráficos Avanzados con ggplot2"
+      - text: "Práctica de Casa 4: Gráficos Avanzados con ggplot2"
         href: PractCasa04-full.html
-      - text: "Practica de Casa 5: Modelos Lineales de Efectos Mixtos (LMM)"
+      - text: "Práctica de Casa 5: Modelos Lineales de Efectos Mixtos (LMM)"
         href: PractCasa05-full.html
 output_dir: "docs"
 

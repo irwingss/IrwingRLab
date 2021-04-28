@@ -26,7 +26,7 @@ editor_options:
 <div class="row" style="padding-top: 30px;">
 
 ::: {.col-sm-6}
-# **RLab**
+# **R Lationamérica - RLab**
 
 #### *by Irwing S. Saldaña* {.col-sm-6}
 
