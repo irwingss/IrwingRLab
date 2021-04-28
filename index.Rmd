@@ -1,5 +1,5 @@
 ---
-title: "IrwingRLab"
+title: "R Lationamérica - RLab"
 output:
   html_document: 
     theme: cosmo
