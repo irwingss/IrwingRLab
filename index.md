@@ -30,7 +30,7 @@ editor_options:
 
 #### *by Irwing S. Saldaña* {.col-sm-6}
 
-En esta página encontrarás los ejercicios desarrollados del programa de certificación especializado [**Data Science: Estadística y Análisis de Datos en R**](https://www.brackinstitute.com/data-science), Cohorte 2021-I.
+En esta página encontrarás los ejercicios desarrollados del programa de certificación especializado [**Data Science: Estadística y Análisis de Datos en R**](https://www.brackinstitute.com/cursos/rdatascience/), Cohorte 2021-I.
 
 ## Recomendaciones de uso
 
