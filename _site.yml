@@ -16,5 +16,9 @@ navbar:
         href: PractCasa04-full.html
       - text: "Práctica de Casa 5: Modelos Lineales de Efectos Mixtos (LMM)"
         href: PractCasa05-full.html
+   - text: "Webinars"
+      menu:
+      - text: "2021-1: ¿Qué puedo hacer con R y RStudio?"
+        href: Webinar20211.html
 output_dir: "docs"
 
